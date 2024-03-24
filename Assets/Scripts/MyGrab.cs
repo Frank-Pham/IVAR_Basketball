@@ -37,13 +37,7 @@ public class MyGrab : MonoBehaviour
 
     void Update()
     {
-        //OVRSkeleton skel = visual.GetComponent<OVRSkeleton>();
-      
-        //int indexFingerJointIndex = (int)HandJointId.HandIndexTip;
-        //OVRBone indexFingerBone = skel.Bones[indexFingerJointIndex];
-        //Vector3 indexFingerPosition = visual.Joints[indexFingerJointIndex].position;
 
-        //Debug.Log("Index Finger: " + indexFingerPosition);
         triggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, controller);
 
         if (isInCollider || isFixed)
@@ -59,7 +53,6 @@ public class MyGrab : MonoBehaviour
                 float xVelocity = vel.x + 50;
 
                 // Calculate the rotation amount based on the X-velocity
-                //float rotationAmount = xVelocity;
                 if (isFixed && spinFac < maxSpin)// && vel.magnitude > velocityThreshold)
                 {
                     Debug.Log("Vel added" + vel.magnitude);
@@ -69,43 +62,17 @@ public class MyGrab : MonoBehaviour
                 }
                 float rotationAmount = rotationInput.eulerAngles.y;
 
-                //basketball.transform.Rotate(Vector3.up, rotationAmount * Time.deltaTime, Space.Self);
-                //basketball.transform.rotation = rotationInput;
-                //basketball.transform.localRotation = rotationInput;
-                //basketball.GetComponent<Rigidbody>().MoveRotation(basketball.GetComponent<Rigidbody>().rotation * Quaternion.Euler(Vector3.up * rotationAmount));
                 Debug.Log("Vel amount" + vel.magnitude);
                 Debug.Log("Rotation amount" + rotationAmount);
                 Debug.Log("Rotation input" + rotationInput);
 
-
-                // Get the current and previous positions of the left controller
-                /*Vector3 currentControllerPos = OVRInput.GetLocalControllerPosition(rotationController);
-                Vector3 deltaPosition = currentControllerPos - lastControllerPos;
-
-                // Calculate the rotation amount based on the change in position
-                float rotationAmount = deltaPosition.x * rotationSpeed * Time.deltaTime;*/
-
                 // Apply rotation to the basketball
                 basketball.transform.RotateAroundLocal(Vector3.forward, spinFac * Time.deltaTime);
-
-                //isSelected = true;
-                //selectedObj.transform.parent.transform.parent = this.transform;
-                //selectedObj.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                //selectedObj.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                //selectedObj.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
                 basketball.transform.parent = indexFinger;
                 //selectedObj.transform.parent.transform.position = basketball.transform.position;
                 selectedObj.transform.parent.transform.parent = basketball.transform;
 
-                //basketball.transform.Rotate(Vector3.up, 10 * Time.deltaTime);
-
-                /*Quaternion rotationInput = OVRInput.GetLocalControllerRotation(rotationController);
-                basketball.transform.Rotate(rotationInput.eulerAngles, 10 * Time.deltaTime);
-                selectedObj.transform.parent.transform.rotation = basketball.transform.rotation;*/
-
-                //Debug.Log("Position T: " + selectedObj.transform.parent.transform.parent.transform.position);
                 Debug.Log("Position Bas: " + basketball.transform.position);
-                //lastControllerPos = currentControllerPos;
                 isFixed = true;
 
             }

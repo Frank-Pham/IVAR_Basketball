@@ -33982,6 +33982,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basketball
       objectReference: {fileID: 0}
+    - target: {fileID: 5884950700658279305, guid: 2367f197cba7445478af1886fb1cac63,
+        type: 3}
+      propertyPath: _pointableElement
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5884950700658279308, guid: 2367f197cba7445478af1886fb1cac63,
         type: 3}
       propertyPath: m_IsTrigger
@@ -34077,7 +34082,17 @@ PrefabInstance:
       propertyPath: rightHandSkeleton
       value: 
       objectReference: {fileID: 2080976247}
-    m_RemovedComponents: []
+    - target: {fileID: 5884950700658279415, guid: 2367f197cba7445478af1886fb1cac63,
+        type: 3}
+      propertyPath: _pointableElement
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5884950700658279307, guid: 2367f197cba7445478af1886fb1cac63, type: 3}
+    - {fileID: 5884950700658279306, guid: 2367f197cba7445478af1886fb1cac63, type: 3}
+    - {fileID: 5884950700658279305, guid: 2367f197cba7445478af1886fb1cac63, type: 3}
+    - {fileID: 5884950700658279304, guid: 2367f197cba7445478af1886fb1cac63, type: 3}
+    - {fileID: 5884950700658279415, guid: 2367f197cba7445478af1886fb1cac63, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2367f197cba7445478af1886fb1cac63, type: 3}
 --- !u!1001 &6631031507778687888
 PrefabInstance:

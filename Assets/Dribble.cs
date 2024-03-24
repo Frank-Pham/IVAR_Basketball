@@ -42,8 +42,6 @@ public class Dribble : MonoBehaviour
         lastControllerPos = OVRInput.GetLocalControllerPosition(rightController);
         rb.isKinematic = true;
         CrossOver(lastControllerPos);
-        //lastControllerPos = GetHandPosition(rightHandSkeleton.transform);
-        //CrossOver(lastControllerPos);
         timeDecayFactor = Mathf.Pow(0.5f, 1.0f / (decayRate / Time.fixedDeltaTime));
 
 
@@ -58,19 +56,12 @@ public class Dribble : MonoBehaviour
     {
         if (ballInHand)
         {
-
             hitGround = false;
-            //rb.useGravity = false;
-            //transform.position = parentHand.transform.position;
-            //transform.rotation = parentHand.transform.rotation;
-            CrossOver(parentHand.transform.position);
 
-            
+            CrossOver(parentHand.transform.position);
 
             Vector3 controllerVelocity = OVRInput.GetLocalControllerVelocity(currentController);
             Quaternion controllerRotation = OVRInput.GetLocalControllerRotation(currentController);
-            //Vector3 controllerVelocity = GetHandVelocity(parentHand.transform);
-            //Quaternion controllerRotation = GetHandRotation(parentHand.transform);
 
             float speed = controllerVelocity.magnitude;
 
@@ -81,19 +72,12 @@ public class Dribble : MonoBehaviour
             {
                 Debug.Log("Speed true");
                 Vector3 currentControllerPos = OVRInput.GetLocalControllerPosition(currentController);
-                //Vector3 currentControllerPos = GetHandPosition(parentHand.transform);
-                Vector3 dribbleDirection = currentControllerPos - lastControllerPos;
-                dribbleDirection.y = 0.0f;  
-                dribbleDirection.Normalize();
-
                 Vector3 forwardDirection = controllerRotation * Vector3.forward;
 
                 ballInHand = false;
                 this.isDribbling = true;
-                //rb.AddForce(controllerRotation * Vector3.down * controllerVelocity.magnitude, ForceMode.VelocityChange);
-                //rb.AddForce(controllerRotation * dribbleDirection * speed, ForceMode.VelocityChange);
-                rb.AddForce(forwardDirection * 3 - Vector3.down , ForceMode.VelocityChange);
 
+                rb.AddForce(forwardDirection * 3 - Vector3.down , ForceMode.VelocityChange);
                 rb.useGravity = true;
                 rb.isKinematic = false;
                 GetComponent<Collider>().isTrigger = false;
@@ -106,24 +90,8 @@ public class Dribble : MonoBehaviour
         }
 
         else if(hitGround && isDribbling)
-        {
-
-            //Vector3 directionToHand = parentHand.transform.position - transform.position;
-            //rb.AddForce(directionToHand.normalized * magneticForce);
-            //rb.velocity *= dampingFactor;
-
-//magneticForce *= timeDecayFactor;
-            
+        {   
             Debug.Log("Magneticforce: " + magneticForce);
-
-            /*if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, leftController))
-            {
-                magneticForce = 15f;
-                currentController = leftController;
-                Vector3 leftControllerPos = OVRInput.GetLocalControllerPosition(leftController);
-                CrossOver(leftControllerPos);
-                return;
-            }*/
 
             if (magneticForce < minMagneticForce)
             {
@@ -146,45 +114,12 @@ public class Dribble : MonoBehaviour
         OVRInput.SetControllerVibration(0,0, controller);
     }
 
+    // Magnetic force on the basketball to the parent hand
     void CrossOver(Vector3 controllerPos)
     {
 
         Vector3 directionToHand = controllerPos - transform.position;
         rb.AddForce(directionToHand.normalized * magneticForce);
-
-        /*
-        //rb.useGravity = false;
-        float distanceToLeft = Vector3.Distance(transform.localPosition, OVRInput.GetLocalControllerPosition(leftController));
-        float distanceToRight = Vector3.Distance(transform.localPosition, OVRInput.GetLocalControllerPosition(rightController));
-        Debug.Log($"Distances {distanceToLeft} {distanceToRight}");
-        //Vector3 targetPosition = (distanceToLeft < distanceToRight) ? OVRInput.GetLocalControllerPosition(leftController) : OVRInput.GetLocalControllerPosition(rightController);
-
-        float distanceThreshold = 0.1f;
-        if (Mathf.Abs(distanceToLeft - distanceToRight) < distanceThreshold)
-        {
-            Debug.Log("Distances similar");
-
-            // If the distances are similar, move towards the controller that initiated the dribble
-            Vector3 directionToHand = controllerPos - transform.position;
-
-            // Apply force to move towards the target position
-            rb.AddForce(directionToHand.normalized * magneticForce);
-        } else
-        {
-            Debug.Log("Distances different");
-            Vector3 targetPosition = (distanceToLeft > distanceToRight) ? OVRInput.GetLocalControllerPosition(leftController) : OVRInput.GetLocalControllerPosition(rightController);
-            Vector3 directionToHand = targetPosition - transform.position;
-            //Vector3 directionToHand = controllerPos - transform.position;
-
-            rb.AddForce(directionToHand.normalized * magneticForce);
-        }*/
-        
-        //ballInHand = true;
-
-        //rb.velocity *= dampingFactor;
-
-        //transform.position = leftControllerPos;
-        // transform.rotation = OVRInput.GetLocalControllerRotation(leftController);
     }
 
     Vector3 GetHandPosition(Transform handTransform)
@@ -206,9 +141,6 @@ public class Dribble : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //float triggerRight = OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger);
-        //Debug.Log(triggerRight);
-        //Debug.Log(other.gameObject.tag);
         if (other.gameObject.tag == "hand")
         {
             magneticForce = 10f;
@@ -218,7 +150,6 @@ public class Dribble : MonoBehaviour
             currentController = rightController;
             Vector3 rightControllerPos = OVRInput.GetLocalControllerPosition(rightController);
             ballInHand = true;
-            //CrossOver(rightControllerPos);
         }
 
         else if (other.gameObject.tag == "leftHand")
@@ -230,7 +161,6 @@ public class Dribble : MonoBehaviour
             parentHand = other.gameObject;
             currentController = leftController;
             ballInHand = true;
-            //CrossOver(leftControllerPos);
         }
     }
 
@@ -244,10 +174,6 @@ public class Dribble : MonoBehaviour
             this.GetComponent<AudioSource>().Play();
 
             Debug.Log("Ground Y: " + groundY);
-            //ballInHand = true;
-            //Vector3 directionToHand = parentHand.transform.position - transform.position;
-            //rb.AddForce(directionToHand.normalized * magneticForce);
-            //rb.velocity *= dampingFactor;
         }
     }
 }

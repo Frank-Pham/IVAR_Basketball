@@ -91,7 +91,7 @@ public class Throwable : MonoBehaviour
             float upwardsVelocity = localVelocity.y;
             Debug.Log("Upwards Velocity: " + upwardsVelocity);
 
-            if(upwardsVelocity > dunkThreshold && Time.time > lastPassTime+ cooldown)
+            if(upwardsVelocity > dunkThreshold && Time.time > lastPassTime + cooldown)
             {
                 Debug.Log("Dunking: " + upwardsVelocity);
 
